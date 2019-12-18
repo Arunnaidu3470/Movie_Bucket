@@ -29,10 +29,7 @@ class Carousel extends StatefulWidget {
   _CarouselState createState() => _CarouselState();
 }
 
-class _CarouselState extends State<Carousel>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+class _CarouselState extends State<Carousel> {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
@@ -60,6 +57,7 @@ class _CarouselState extends State<Carousel>
                 userRating: widget.snapshot[index][MovieConstants.MOVIE_RATING]
                     .toString(),
                 index: index,
+                id: widget.snapshot[index][MovieConstants.MOVIE_ID],
                 // releasedOn: snapshot[index][MovieConstants.MOVIE_RELEASE_DATE],
               ),
             );
