@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_bucket/pages/Movie_details.dart';
 import 'package:movie_bucket/services/api_services.dart';
 
 class PosterTile extends StatefulWidget {
@@ -12,6 +13,7 @@ class PosterTile extends StatefulWidget {
   final releasedOn;
   final Function onTap;
   final int index;
+  final int id;
   PosterTile({
     this.name,
     this.plot,
@@ -20,6 +22,7 @@ class PosterTile extends StatefulWidget {
     this.onTap,
     this.index,
     this.releasedOn,
+    this.id,
   });
 
   @override
@@ -30,7 +33,7 @@ class _PosterTileState extends State<PosterTile> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => print('${widget.index}'),
+      onTap: onTap,
       child: Container(
         child: Stack(
           children: <Widget>[
@@ -40,6 +43,15 @@ class _PosterTileState extends State<PosterTile> {
         ),
       ),
     );
+  }
+
+  onTap() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return MovieDetailsPage(
+        id: widget.id,
+        title: widget.name,
+      );
+    }));
   }
 
   Widget _bottom() {
@@ -120,6 +132,8 @@ class _PosterTileState extends State<PosterTile> {
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           child: CachedNetworkImage(
+            filterQuality: FilterQuality.none,
+            useOldImageOnUrlChange: false,
             fit: BoxFit.cover,
             imageUrl: APIServices.getImageUrlOfMovie(widget.posterPath),
             placeholder: (context, url) =>
