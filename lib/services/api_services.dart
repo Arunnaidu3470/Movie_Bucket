@@ -30,6 +30,11 @@ class APIServices extends APIBase {
   static String getImageUrlOfMovie(String path) {
     return '${APIBase.TMDB_BASE_IMAGE_URL}$path';
   }
+
+  ///grturns youtube url
+  static String getYoutubeUrl(String youtubeid) {
+    return 'https://www.youtube.com/watch?v=$youtubeid';
+  }
 }
 
 class MovieServices extends APIBase {
@@ -91,6 +96,27 @@ class MovieServices extends APIBase {
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results']; //returnes body of the ids in json formate
+  }
+
+  ///returns a list of avaliable videos by id
+  static Future getMoviesVideosById(String id,
+      {String language = 'en', String region = 'us'}) async {
+    String url =
+        'https://api.themoviedb.org/3/movie/$id/videos?api_key=$_apiKey&language=en-US';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    return data['results']; //returnes body of the ids in json formate
+  }
+
+  ///returns Youtube Url
+  static Future getMovieYoutubeUrl(String id) async {
+    String url =
+        'https://api.themoviedb.org/3/movie/$id/videos?api_key=$_apiKey&language=en-US';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    String ytUrl =
+        'https://www.youtube.com/watch?v=${data['results'][0]['key']}';
+    return ytUrl;
   }
 }
 
