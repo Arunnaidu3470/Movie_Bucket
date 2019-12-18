@@ -5,6 +5,8 @@ class MovieConstants {
   static const String MOVIE_RATING = 'vote_average';
   static const String MOVIE_BACK_DROP_POSTER = 'backdrop_path';
   static const String MOVIE_RELEASE_DATE = 'release_date';
+  static const String MOVIE_ID = 'id';
+  static const String Movie_GENERS = 'genres';
 }
 
 class TvConstants {
