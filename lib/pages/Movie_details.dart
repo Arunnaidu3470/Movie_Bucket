@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_bucket/constants/constants.dart';
 import 'package:movie_bucket/services/api_services.dart';
+import 'package:movie_bucket/widgets/VideoPlayer.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final String title;
@@ -27,7 +28,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             physics: BouncingScrollPhysics(),
             slivers: <Widget>[
               SliverAppBar(
-                backgroundColor: Colors.transparent,
+                // snap: true,
                 stretch: true,
                 expandedHeight: 300,
                 flexibleSpace: FlexibleSpaceBar(
@@ -37,28 +38,18 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                     background: _imageBackground(context,
                         backgroundPath: snapshot
                             .data[MovieConstants.MOVIE_BACK_DROP_POSTER])),
-                floating: true,
+                // floating: true,
               ),
               SliverToBoxAdapter(
                 child: _futureBuilder(
                     MovieServices.getMovieById(id: widget.id.toString())),
               ),
+              SliverFillRemaining(
+                child: Center(child: Text('Thats all for now')),
+              )
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget _scaffold(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title == null ? "Movie Details" : widget.title),
-      ),
-      body: SafeArea(
-        child: _futureBuilder(
-            MovieServices.getMovieById(id: widget.id.toString()),
-            context: context),
       ),
     );
   }
@@ -79,7 +70,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       children: <Widget>[
         _geners(generData: data[MovieConstants.Movie_GENERS]),
         _releasedDate(date: data[MovieConstants.MOVIE_RELEASE_DATE]),
+        Divider(),
         _plot(plot: data[MovieConstants.MOVIE_PLOT]),
+        Divider(),
         _trailer(),
       ],
     );
@@ -101,7 +94,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   }
 
   Widget _plot({String plot}) {
-    return Text(plot);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(plot),
+    );
   }
 
   Widget _geners({List<dynamic> generData}) {
@@ -136,7 +132,27 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       future: MovieServices.getMovieYoutubeUrl(widget.id.toString()),
       builder: (_, snapshot) {
         if (!snapshot.hasData) Center(child: Text('Loading Trailer'));
-        return Text('${snapshot.data.toString()}');
+        if (snapshot.data != null) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Trailer',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: VideoPlayer(
+                  videoid: snapshot.data,
+                ),
+              ),
+            ],
+          );
+        }
+        return Center(child: LinearProgressIndicator());
       },
     );
   }
