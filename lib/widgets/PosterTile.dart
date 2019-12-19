@@ -14,6 +14,7 @@ class PosterTile extends StatefulWidget {
   final Function onTap;
   final int index;
   final int id;
+  final bool diasbleRating;
   PosterTile({
     this.name,
     this.plot,
@@ -23,6 +24,7 @@ class PosterTile extends StatefulWidget {
     this.index,
     this.releasedOn,
     this.id,
+    this.diasbleRating = false,
   });
 
   @override
@@ -56,17 +58,17 @@ class _PosterTileState extends State<PosterTile> {
 
   Widget _bottom() {
     return ClipRRect(
-      borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
+      borderRadius: BorderRadius.all(Radius.circular(8)),
       clipBehavior: Clip.antiAlias,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Wrap(
           verticalDirection: VerticalDirection.up,
           direction: Axis.horizontal,
-          // alignment: WrapAlignment.spaceBetween,
-          // runAlignment: WrapAlignment.spaceBetween,
-          children: <Widget>[_title(), _rating()],
+          children: <Widget>[
+            _title(),
+            if (!widget.diasbleRating) _rating(),
+          ],
         ),
       ),
     );
@@ -74,7 +76,7 @@ class _PosterTileState extends State<PosterTile> {
 
   Widget _title() {
     return Padding(
-      padding: const EdgeInsets.only(left: 3),
+      padding: const EdgeInsets.all(3),
       child: Text(
         widget.name,
         style: TextStyle(

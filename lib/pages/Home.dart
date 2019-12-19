@@ -42,7 +42,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              return Carousel(snapshot: snapshot.data);
+              return Carousel(
+                snapshot: snapshot.data,
+                disableRating: false,
+              );
             },
           ),
           Divider(),
@@ -55,6 +58,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 );
               return Carousel(
                   snapshot: snapshot.data,
+                  disableRating: true,
                   height: 150,
                   viewportFraction: 0.3,
                   enlargeCenterPage: false,
@@ -75,6 +79,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 );
               return Carousel(
                   snapshot: snapshot.data,
+                  disableRating: true,
                   height: 150,
                   viewportFraction: 0.3,
                   enlargeCenterPage: false,
@@ -95,6 +100,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 );
               return Carousel(
                   snapshot: snapshot.data,
+                  disableRating: true,
                   height: 150,
                   viewportFraction: 0.3,
                   enlargeCenterPage: false,

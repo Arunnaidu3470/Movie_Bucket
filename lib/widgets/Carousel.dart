@@ -14,16 +14,19 @@ class Carousel extends StatefulWidget {
   final bool infiniteScroll;
   final int initialPage;
   final Widget pre;
-  Carousel(
-      {this.snapshot,
-      this.viewportFraction = 0.8,
-      this.height,
-      this.enlargeCenterPage = true,
-      this.autoPlay = true,
-      this.infiniteScroll = true,
-      this.initialPage = 0,
-      this.pre,
-      this.scrollPhysics});
+  final bool disableRating;
+  Carousel({
+    this.snapshot,
+    this.viewportFraction = 0.8,
+    this.height,
+    this.enlargeCenterPage = true,
+    this.autoPlay = true,
+    this.infiniteScroll = true,
+    this.initialPage = 0,
+    this.pre,
+    this.scrollPhysics,
+    this.disableRating = false,
+  });
 
   @override
   _CarouselState createState() => _CarouselState();
@@ -54,10 +57,13 @@ class _CarouselState extends State<Carousel> {
                 name: widget.snapshot[index][MovieConstants.MOVIE_TITLE],
                 posterPath: widget.snapshot[index][MovieConstants.MOVIE_POSTER],
                 // plot: snapshot[index][MovieConstants.MOVIE_PLOT],
-                userRating: widget.snapshot[index][MovieConstants.MOVIE_RATING]
-                    .toString(),
+                userRating: (widget.disableRating)
+                    ? ""
+                    : widget.snapshot[index][MovieConstants.MOVIE_RATING]
+                        .toString(),
                 index: index,
                 id: widget.snapshot[index][MovieConstants.MOVIE_ID],
+                diasbleRating: widget.disableRating,
                 // releasedOn: snapshot[index][MovieConstants.MOVIE_RELEASE_DATE],
               ),
             );
