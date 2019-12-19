@@ -116,7 +116,7 @@ class MovieServices extends APIBase {
     var data = jsonDecode(response.body);
     String ytUrl =
         'https://www.youtube.com/watch?v=${data['results'][0]['key']}';
-    return ytUrl;
+    return data['results'][0]['key'];
   }
 }
 
