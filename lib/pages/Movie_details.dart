@@ -30,7 +30,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             physics: BouncingScrollPhysics(),
             slivers: <Widget>[
               SliverAppBar(
-                // snap: true,
                 stretch: true,
                 pinned: true,
                 expandedHeight: 300,
@@ -113,9 +112,18 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Story Line',
-            style: TextStyle(fontSize: 20),
+          Row(
+            children: <Widget>[
+              Icon(
+                Icons.assignment,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              Text(
+                ' Story Line',
+                style: TextStyle(
+                    fontSize: 20, color: Theme.of(context).colorScheme.primary),
+              ),
+            ],
           ),
           SizedBox(
             height: 10,
@@ -172,9 +180,19 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Trailer',
-                  style: TextStyle(fontSize: 20),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.local_movies,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    Text(
+                      ' Trailer',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 10,
@@ -224,11 +242,19 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  'Similar Movies',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.play_circle_filled,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    Text(
+                      ' Similar Movies',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
                 ),
               ),
               Container(

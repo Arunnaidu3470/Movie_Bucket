@@ -12,18 +12,27 @@ class CastDetails extends StatelessWidget {
     // print(castList.map((index) {
     //   return index[CastConstants.PROFILE_PATH];
     // }));
-    return _horizantolList();
+    return _horizantolList(context);
   }
 
-  Widget _horizantolList() {
+  Widget _horizantolList(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Text(
-            'Actors',
-            // style: textTheme.subhead.copyWith(fontSize: 18.0),
+          child: Row(
+            children: <Widget>[
+              Icon(
+                Icons.recent_actors,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              Text(
+                ' Actors',
+                style: TextStyle(
+                    fontSize: 20, color: Theme.of(context).colorScheme.primary),
+              ),
+            ],
           ),
         ),
         SizedBox.fromSize(
