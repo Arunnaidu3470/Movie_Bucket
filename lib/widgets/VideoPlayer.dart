@@ -16,7 +16,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     super.initState();
     try {
       _controller = YoutubePlayerController(
-        initialVideoId: YoutubePlayer.convertUrlToId(widget.videoid),
+        initialVideoId: widget.videoid.toString(),
         flags: YoutubePlayerFlags(
           disableDragSeek: true,
           mute: false,
