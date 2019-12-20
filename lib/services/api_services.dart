@@ -157,6 +157,15 @@ class MovieServices extends APIBase {
     var data = jsonDecode(response.body);
     return data['crew'];
   }
+
+  static Future getSimilarMovies(String movieid,
+      {String language = 'en', int page = 1}) async {
+    String url =
+        'https://api.themoviedb.org/3/movie/$movieid/similar?api_key=$_apiKey&language=in&page=1';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    return data['results'];
+  }
 }
 
 class TvServices {
