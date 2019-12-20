@@ -149,7 +149,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   Widget _trailer() {
     return FutureBuilder(
-      future: MovieServices.getMovieYtTrailerId(widget.id.toString()),
+      future: MovieServices.getMovieYtTrailerIdById(widget.id.toString()),
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
           return LinearProgressIndicator(

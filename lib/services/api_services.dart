@@ -108,15 +108,36 @@ class MovieServices extends APIBase {
     return data['results']; //returnes body of the ids in json formate
   }
 
-  ///returns Youtube id
-  static Future getMovieYoutubeUrl(String id) async {
-    String url =
-        '${APIBase.TMDB_BASE_URL}/movie/$id/videos?api_key=$_apiKey&language=en-US';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    String ytUrl =
-        'https://www.youtube.com/watch?v=${data['results'][0]['key']}';
-    return ytUrl;
+  ///returns Youtube Trailer id
+  static Future getMovieYtTrailerIdById(String id) async {
+    try {
+      String url =
+          '${APIBase.TMDB_BASE_URL}/movie/$id/videos?api_key=$_apiKey&language=en-US';
+      http.Response response = await http.get(url);
+      var data = jsonDecode(response.body);
+      String ytUrl =
+          'https://www.youtube.com/watch?v=${data['results'][0]['key']}';
+      return data['results'][0]['key'];
+    } on RangeError {
+      return null;
+    } catch (e) {}
+    return null;
+  }
+
+  ///Returns Youtube Trailer URL
+  static Future getMovieYtTrailerUrlById(String id) async {
+    try {
+      String url =
+          '${APIBase.TMDB_BASE_URL}/movie/$id/videos?api_key=$_apiKey&language=en-US';
+      http.Response response = await http.get(url);
+      var data = jsonDecode(response.body);
+      String ytUrl =
+          'https://www.youtube.com/watch?v=${data['results'][0]['key']}';
+      return ytUrl;
+    } on RangeError {
+      return null;
+    } catch (e) {}
+    return null;
   }
 
   ///returns Cast's List<dynamic> details by taking [movieid]
