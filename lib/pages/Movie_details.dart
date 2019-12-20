@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_bucket/constants/constants.dart';
 import 'package:movie_bucket/services/api_services.dart';
 import 'package:movie_bucket/widgets/Cast_Details.dart';
+import 'package:movie_bucket/widgets/Similar_movies.dart';
 import 'package:movie_bucket/widgets/VideoPlayer.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -40,17 +41,27 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                     background: _imageBackground(context,
                         backgroundPath: snapshot
                             .data[MovieConstants.MOVIE_BACK_DROP_POSTER])),
-                // floating: true,
               ),
               SliverToBoxAdapter(
                 child: _futureBuilder(
                     MovieServices.getMovieById(id: widget.id.toString())),
               ),
+              SliverList(
+                delegate: SliverChildListDelegate.fixed([
+                  Divider(),
+                  _trailer(),
+                  Divider(),
+                  _cast(),
+                  Divider(),
+                  _similarMovies(),
+                  Divider(),
+                ], addAutomaticKeepAlives: true),
+              ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                    height: 200,
+                    height: 150,
                     child: Center(child: Text('Thats all for now'))),
-              )
+              ),
             ],
           );
         },
@@ -76,11 +87,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         _releasedDate(date: data[MovieConstants.MOVIE_RELEASE_DATE]),
         Divider(),
         _plot(plot: data[MovieConstants.MOVIE_PLOT]),
-        Divider(),
-        _trailer(),
-        Divider(),
-        _cast(),
-        Divider(),
       ],
     );
   }
@@ -198,6 +204,40 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             child: CastDetails(
               castList: snapshot.data,
             ),
+          );
+        });
+  }
+
+  Widget _similarMovies() {
+    return FutureBuilder(
+        future: MovieServices.getSimilarMovies(widget.id.toString()),
+        builder: (_, snapshot) {
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+          print(snapshot.data.isEmpty);
+          if (snapshot.data.isEmpty)
+            return Center(
+              child: Text('We were unable to find Similar Movies'),
+            );
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  'Similar Movies',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              Container(
+                height: 200,
+                child: SimilarMovies(
+                  moviesList: snapshot.data,
+                ),
+              ),
+            ],
           );
         });
   }

@@ -28,3 +28,14 @@ class CastConstants {
   static const String ORDER = 'order';
   static const String PROFILE_PATH = 'profile_path';
 }
+
+class SimilarMovieConstants {
+  static const String MOVIE_ID = 'id';
+  static const String MOVIE_TITLE = 'original_title';
+  static const String ORGINAL_LANGUAGE = 'original_language';
+  static const String MOVIE_PLOT = 'overview';
+  static const String MOVIE_RATING = 'vote_average';
+  static const String MOVIE_BACK_DROP_POSTER = 'backdrop_path';
+  static const String MOVIE_POSTER = 'poster_path';
+  static const String MOVIE_RELEASE_DATE = 'release_date';
+}
