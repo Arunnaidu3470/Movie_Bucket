@@ -9,7 +9,7 @@ class APIBase {
   static const TMDB_BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/original';
 }
 
-class APIServices extends APIBase {
+class APIServices {
   static final String _apiKey = Keys.TMDB_API_KEY;
 
   ///gets the top movies of Present time by default
@@ -44,7 +44,7 @@ class MovieServices extends APIBase {
   static Future getMovieById(
       {@required String id, String language = 'en'}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/$id?api_key=$_apiKey&language=$language';
+        '${APIBase.TMDB_BASE_URL}/movie/$id?api_key=$_apiKey&language=$language';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data;
@@ -54,7 +54,7 @@ class MovieServices extends APIBase {
   static Future getMovieByTitle(
       {@required String title, String language = 'en'}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/$title?api_key=$_apiKey&language=$language';
+        '${APIBase.TMDB_BASE_URL}/movie/$title?api_key=$_apiKey&language=$language';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data;
@@ -63,7 +63,7 @@ class MovieServices extends APIBase {
   ///to Query external ids of movie with [movie id]
   static Future getExternalIdsOfMovies({@required String id}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/$id/external_ids?api_key=$_apiKey';
+        '${APIBase.TMDB_BASE_URL}/movie/$id/external_ids?api_key=$_apiKey';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data; //returnes body of the ids in json formate
@@ -72,7 +72,7 @@ class MovieServices extends APIBase {
   static Future getMoviesNowPlaying(
       {String language = 'en', String region = 'us'}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/now_playing?api_key=$_apiKey&language=$language&page=1&region=$region';
+        '${APIBase.TMDB_BASE_URL}/movie/now_playing?api_key=$_apiKey&language=$language&page=1&region=$region';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results']; //returnes body of the ids in json formate
@@ -82,7 +82,7 @@ class MovieServices extends APIBase {
   static Future getMoviesUpComing(
       {String language = 'en', String region = 'us'}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/upcoming?api_key=$_apiKey&language=en-US&page=1&region=$region';
+        '${APIBase.TMDB_BASE_URL}/movie/upcoming?api_key=$_apiKey&language=en-US&page=1&region=$region';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results']; //returnes body of the ids in json formate
@@ -92,7 +92,7 @@ class MovieServices extends APIBase {
   static Future getMoviesTopRated(
       {String language = 'en', String region = 'us'}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/top_rated?api_key=$_apiKey&language=$language&page=1&reagion=$region';
+        '${APIBase.TMDB_BASE_URL}/movie/top_rated?api_key=$_apiKey&language=$language&page=1&reagion=$region';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results']; //returnes body of the ids in json formate
@@ -102,21 +102,39 @@ class MovieServices extends APIBase {
   static Future getMoviesVideosById(String id,
       {String language = 'en', String region = 'us'}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/$id/videos?api_key=$_apiKey&language=en-US';
+        '${APIBase.TMDB_BASE_URL}/movie/$id/videos?api_key=$_apiKey&language=en-US';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results']; //returnes body of the ids in json formate
   }
 
-  ///returns Youtube Url
+  ///returns Youtube id
   static Future getMovieYoutubeUrl(String id) async {
     String url =
-        'https://api.themoviedb.org/3/movie/$id/videos?api_key=$_apiKey&language=en-US';
+        '${APIBase.TMDB_BASE_URL}/movie/$id/videos?api_key=$_apiKey&language=en-US';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     String ytUrl =
         'https://www.youtube.com/watch?v=${data['results'][0]['key']}';
     return data['results'][0]['key'];
+  }
+
+  ///returns Cast's List<dynamic> details by taking [movieid]
+  static Future getMovieCastDetails(String movieid) async {
+    String url =
+        '${APIBase.TMDB_BASE_URL}/movie/$movieid/credits?api_key=$_apiKey';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    return data['cast'];
+  }
+
+  ///returns Crew's List<dynamic> details by taking [movieid]
+  static Future getMovieCrewDetails(String movieid) async {
+    String url =
+        '${APIBase.TMDB_BASE_URL}/movie/$movieid/credits?api_key=$_apiKey';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    return data['crew'];
   }
 }
 
@@ -126,7 +144,7 @@ class TvServices {
   ///to Query movies by [id]
   static Future getTvById({@required String id, String language = 'en'}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/$id?api_key=$_apiKey&language=$language';
+        '${APIBase.TMDB_BASE_URL}/movie/$id?api_key=$_apiKey&language=$language';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data;
@@ -136,7 +154,7 @@ class TvServices {
   static Future getTvByTitle(
       {@required String title, String language = 'en'}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/$title?api_key=$_apiKey&language=$language';
+        '${APIBase.TMDB_BASE_URL}/movie/$title?api_key=$_apiKey&language=$language';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data;
@@ -145,7 +163,7 @@ class TvServices {
   ///to Query external ids of movie with [movie id]
   static Future getExternalIdsOfTv({@required String id}) async {
     String url =
-        'https://api.themoviedb.org/3/movie/$id/external_ids?api_key=$_apiKey';
+        '${APIBase.TMDB_BASE_URL}/movie/$id/external_ids?api_key=$_apiKey';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data; //returnes body of the ids in json formate
@@ -154,7 +172,7 @@ class TvServices {
   static Future getTvNowAir(
       {String language = 'en', String region = 'us'}) async {
     String url =
-        'https://api.themoviedb.org/3/tv/on_the_air?api_key=$_apiKey&language=$language&page=1';
+        '${APIBase.TMDB_BASE_URL}/tv/on_the_air?api_key=$_apiKey&language=$language&page=1';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results']; //returnes body of the ids in json formate
@@ -164,7 +182,7 @@ class TvServices {
   static Future getTvPopular(
       {String language = 'en', String region = 'us'}) async {
     String url =
-        'https://api.themoviedb.org/3/tv/popular?api_key=$_apiKey&language=$language&page=1';
+        '${APIBase.TMDB_BASE_URL}/tv/popular?api_key=$_apiKey&language=$language&page=1';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results']; //returnes body of the ids in json formate
@@ -174,7 +192,7 @@ class TvServices {
   static Future getTvTopRated(
       {String language = 'en', String region = 'us'}) async {
     String url =
-        'https://api.themoviedb.org/3/tv/popular?api_key=$_apiKey&language=$language&page=1';
+        '${APIBase.TMDB_BASE_URL}/tv/popular?api_key=$_apiKey&language=$language&page=1';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results']; //returnes body of the ids in json formate
