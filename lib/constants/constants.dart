@@ -17,3 +17,14 @@ class TvConstants {
   static const String MOVIE_BACK_DROP_POSTER = 'backdrop_path';
   static const String MOVIE_RELEASE_DATE = 'release_date';
 }
+
+class CastConstants {
+  static const String Cast_ID = 'cast_id';
+  static const String NAME = 'name';
+  static const String CHARACTER_NAME = 'character';
+  static const String CREDIT_ID = 'credit_id';
+  static const String GENDER = 'gender';
+  static const String ACTOR_ID = 'id';
+  static const String ORDER = 'order';
+  static const String PROFILE_PATH = 'profile_path';
+}

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_bucket/constants/constants.dart';
 import 'package:movie_bucket/services/api_services.dart';
+import 'package:movie_bucket/widgets/Cast_Details.dart';
 import 'package:movie_bucket/widgets/VideoPlayer.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -30,6 +31,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               SliverAppBar(
                 // snap: true,
                 stretch: true,
+                pinned: true,
                 expandedHeight: 300,
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
@@ -44,8 +46,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 child: _futureBuilder(
                     MovieServices.getMovieById(id: widget.id.toString())),
               ),
-              SliverFillRemaining(
-                child: Center(child: Text('Thats all for now')),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                    height: 200,
+                    child: Center(child: Text('Thats all for now'))),
               )
             ],
           );
@@ -74,16 +78,19 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         _plot(plot: data[MovieConstants.MOVIE_PLOT]),
         Divider(),
         _trailer(),
+        Divider(),
+        _cast(),
+        Divider(),
       ],
     );
   }
 
   Widget _imageBackground(BuildContext context, {String backgroundPath}) {
+    if (backgroundPath == null) return Text('No Image');
     return SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height / 2,
         child: ClipRRect(
-          // borderRadius: BorderRadius.all(Radius.circular(10)),
           child: CachedNetworkImage(
             fit: BoxFit.cover,
             imageUrl: APIServices.getImageUrlOfMovie(backgroundPath),
@@ -96,7 +103,20 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   Widget _plot({String plot}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(plot),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Story Line',
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(plot),
+        ],
+      ),
     );
   }
 
@@ -129,31 +149,56 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   Widget _trailer() {
     return FutureBuilder(
-      future: MovieServices.getMovieYoutubeUrl(widget.id.toString()),
+      future: MovieServices.getMovieYtTrailerId(widget.id.toString()),
       builder: (_, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting)
+          return LinearProgressIndicator(
+            backgroundColor: Colors.green[100],
+          );
         if (!snapshot.hasData) Center(child: Text('Loading Trailer'));
+        if (snapshot.data == null)
+          Center(
+            child: Text('No'),
+          );
         if (snapshot.data != null) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Trailer',
-                style: TextStyle(fontSize: 20),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: VideoPlayer(
-                  videoid: snapshot.data,
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Trailer',
+                  style: TextStyle(fontSize: 20),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: VideoPlayer(
+                    videoid: snapshot.data,
+                  ),
+                ),
+              ],
+            ),
           );
         }
-        return Center(child: LinearProgressIndicator());
+        return Center(child: Text('Trailer will be added soon'));
       },
     );
+  }
+
+  Widget _cast() {
+    return FutureBuilder(
+        future: MovieServices.getMovieCastDetails(widget.id.toString()),
+        builder: (_, snapshot) {
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+          return Container(
+            child: CastDetails(
+              castList: snapshot.data,
+            ),
+          );
+        });
   }
 }
