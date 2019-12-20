@@ -133,14 +133,16 @@ class _PosterTileState extends State<PosterTile> {
         height: MediaQuery.of(context).size.height / 2,
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          child: CachedNetworkImage(
-            filterQuality: FilterQuality.none,
-            useOldImageOnUrlChange: false,
-            fit: BoxFit.cover,
-            imageUrl: APIServices.getImageUrlOfMovie(widget.posterPath),
-            placeholder: (context, url) =>
-                Center(child: CircularProgressIndicator()),
-          ),
+          child: (widget.posterPath != null)
+              ? CachedNetworkImage(
+                  filterQuality: FilterQuality.none,
+                  useOldImageOnUrlChange: false,
+                  fit: BoxFit.cover,
+                  imageUrl: APIServices.getImageUrlOfMovie(widget.posterPath),
+                  placeholder: (context, url) =>
+                      Center(child: CircularProgressIndicator()),
+                )
+              : Icon(Icons.local_movies),
         ));
   }
 
