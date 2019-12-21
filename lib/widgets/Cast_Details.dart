@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_bucket/constants/constants.dart';
 import 'package:movie_bucket/services/api_services.dart';
@@ -9,9 +8,6 @@ class CastDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(castList.map((index) {
-    //   return index[CastConstants.PROFILE_PATH];
-    // }));
     return _horizantolList(context);
   }
 
@@ -74,8 +70,9 @@ class _CastTileState extends State<CastTile> {
         children: [
           if (widget.imgPath != null)
             CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(
-                  APIServices.getImageUrlOfMovie(widget.imgPath)),
+              backgroundImage: NetworkImage(ImageServices.getImageUrlOf(
+                  widget.imgPath,
+                  size: ImageServices.PROFILE_SIZE_MEDIUM)),
               radius: 40.0,
             )
           else

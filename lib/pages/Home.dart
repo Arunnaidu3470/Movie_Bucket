@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_bucket/widgets/Movie_tile.dart';
+import '../widgets/Movie_tile.dart';
 
 import '../services/api_services.dart';
 import '../widgets/Carousel.dart';
