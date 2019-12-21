@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_bucket/constants/constants.dart';
-import 'package:movie_bucket/services/api_services.dart';
-import 'package:movie_bucket/widgets/Cast_Details.dart';
-import 'package:movie_bucket/widgets/Similar_movies.dart';
-import 'package:movie_bucket/widgets/VideoPlayer.dart';
+
+import '../constants/constants.dart';
+import '../services/api_services.dart';
+import '../widgets/Cast_Details.dart';
+import '../widgets/Movie_tile.dart';
+import '../widgets/VideoPlayer.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final String title;
@@ -98,7 +99,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         child: ClipRRect(
           child: CachedNetworkImage(
             fit: BoxFit.cover,
-            imageUrl: APIServices.getImageUrlOfMovie(backgroundPath),
+            imageUrl: ImageServices.getImageUrlOf(backgroundPath,
+                size: ImageServices.BACKDROP_SIZE_HIGHEST),
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
           ),
@@ -232,7 +234,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         builder: (_, snapshot) {
           if (!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
-          print(snapshot.data.isEmpty);
           if (snapshot.data.isEmpty)
             return Center(
               child: Text('We were unable to find Similar Movies'),
@@ -259,8 +260,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               ),
               Container(
                 height: 200,
-                child: SimilarMovies(
-                  moviesList: snapshot.data,
+                child: MovieTile(
+                  movieList: snapshot.data,
                 ),
               ),
             ],
