@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_bucket/constants/constants.dart';
 import 'package:movie_bucket/services/api_services.dart';
@@ -9,21 +8,27 @@ class CastDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(castList.map((index) {
-    //   return index[CastConstants.PROFILE_PATH];
-    // }));
-    return _horizantolList();
+    return _horizantolList(context);
   }
 
-  Widget _horizantolList() {
+  Widget _horizantolList(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Text(
-            'Actors',
-            // style: textTheme.subhead.copyWith(fontSize: 18.0),
+          child: Row(
+            children: <Widget>[
+              Icon(
+                Icons.recent_actors,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              Text(
+                ' Actors',
+                style: TextStyle(
+                    fontSize: 20, color: Theme.of(context).colorScheme.primary),
+              ),
+            ],
           ),
         ),
         SizedBox.fromSize(
@@ -65,8 +70,9 @@ class _CastTileState extends State<CastTile> {
         children: [
           if (widget.imgPath != null)
             CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(
-                  APIServices.getImageUrlOfMovie(widget.imgPath)),
+              backgroundImage: NetworkImage(ImageServices.getImageUrlOf(
+                  widget.imgPath,
+                  size: ImageServices.PROFILE_SIZE_MEDIUM)),
               radius: 40.0,
             )
           else

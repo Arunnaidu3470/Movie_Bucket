@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_bucket/constants/constants.dart';
-import 'package:movie_bucket/services/api_services.dart';
-import 'package:movie_bucket/widgets/Cast_Details.dart';
-import 'package:movie_bucket/widgets/Similar_movies.dart';
-import 'package:movie_bucket/widgets/VideoPlayer.dart';
+
+import '../constants/constants.dart';
+import '../services/api_services.dart';
+import '../widgets/Cast_Details.dart';
+import '../widgets/Movie_tile.dart';
+import '../widgets/VideoPlayer.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final String title;
@@ -30,7 +31,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             physics: BouncingScrollPhysics(),
             slivers: <Widget>[
               SliverAppBar(
-                // snap: true,
                 stretch: true,
                 pinned: true,
                 expandedHeight: 300,
@@ -99,7 +99,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         child: ClipRRect(
           child: CachedNetworkImage(
             fit: BoxFit.cover,
-            imageUrl: APIServices.getImageUrlOfMovie(backgroundPath),
+            imageUrl: ImageServices.getImageUrlOf(backgroundPath,
+                size: ImageServices.BACKDROP_SIZE_HIGHEST),
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
           ),
@@ -113,9 +114,18 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Story Line',
-            style: TextStyle(fontSize: 20),
+          Row(
+            children: <Widget>[
+              Icon(
+                Icons.assignment,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              Text(
+                ' Story Line',
+                style: TextStyle(
+                    fontSize: 20, color: Theme.of(context).colorScheme.primary),
+              ),
+            ],
           ),
           SizedBox(
             height: 10,
@@ -172,9 +182,19 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Trailer',
-                  style: TextStyle(fontSize: 20),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.local_movies,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    Text(
+                      ' Trailer',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 10,
@@ -214,7 +234,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         builder: (_, snapshot) {
           if (!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
-          print(snapshot.data.isEmpty);
           if (snapshot.data.isEmpty)
             return Center(
               child: Text('We were unable to find Similar Movies'),
@@ -224,17 +243,25 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  'Similar Movies',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.play_circle_filled,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    Text(
+                      ' Similar Movies',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
                 ),
               ),
               Container(
                 height: 200,
-                child: SimilarMovies(
-                  moviesList: snapshot.data,
+                child: MovieTile(
+                  movieList: snapshot.data,
                 ),
               ),
             ],

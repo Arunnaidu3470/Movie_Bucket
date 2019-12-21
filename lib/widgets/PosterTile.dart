@@ -85,16 +85,6 @@ class _PosterTileState extends State<PosterTile> {
     );
   }
 
-  Widget _plot() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 3),
-      child: Text(
-        widget.plot,
-        style: TextStyle(color: Colors.white70),
-      ),
-    );
-  }
-
   Widget _rating() {
     if (widget.userRating.isEmpty) return SizedBox();
     return Padding(
@@ -116,17 +106,6 @@ class _PosterTileState extends State<PosterTile> {
     );
   }
 
-  Widget _releasedOn() {
-    if (widget.releasedOn == null) return SizedBox();
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        '(${widget.releasedOn.toString()})',
-        style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
-      ),
-    );
-  }
-
   Widget _image(BuildContext context) {
     return SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -138,26 +117,12 @@ class _PosterTileState extends State<PosterTile> {
                   filterQuality: FilterQuality.none,
                   useOldImageOnUrlChange: false,
                   fit: BoxFit.cover,
-                  imageUrl: APIServices.getImageUrlOfMovie(widget.posterPath),
+                  imageUrl: ImageServices.getImageUrlOf(widget.posterPath,
+                      size: ImageServices.POSTER_SIZE_HIGHEST),
                   placeholder: (context, url) =>
                       Center(child: CircularProgressIndicator()),
                 )
               : Icon(Icons.local_movies),
-        ));
-  }
-
-  Widget _imageWithoutCache(BuildContext context) {
-    return SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 2,
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(10),
-              topRight: const Radius.circular(10)),
-          child: Image.network(
-            APIServices.getImageUrlOfMovie(widget.posterPath),
-            fit: BoxFit.cover,
-          ),
         ));
   }
 }

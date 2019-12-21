@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_bucket/constants/constants.dart';
 import 'package:movie_bucket/pages/Movie_details.dart';
@@ -86,8 +85,9 @@ class _STileState extends State<STile> {
       width: 120,
       child: FittedBox(
         fit: BoxFit.contain,
-        child: CachedNetworkImage(
-          imageUrl: APIServices.getImageUrlOfMovie(widget.imgPath),
+        child: Image.network(
+          ImageServices.getImageUrlOf(widget.imgPath,
+              size: ImageServices.POSTER_SIZE_MEDIUMPLUS),
         ),
       ),
     );

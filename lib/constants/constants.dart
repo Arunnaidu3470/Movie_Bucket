@@ -1,5 +1,5 @@
 class MovieConstants {
-  static const String MOVIE_TITLE = 'original_title';
+  static const String MOVIE_TITLE = 'title';
   static const String MOVIE_PLOT = 'overview';
   static const String MOVIE_POSTER = 'poster_path';
   static const String MOVIE_RATING = 'vote_average';
@@ -31,7 +31,7 @@ class CastConstants {
 
 class SimilarMovieConstants {
   static const String MOVIE_ID = 'id';
-  static const String MOVIE_TITLE = 'original_title';
+  static const String MOVIE_TITLE = 'title';
   static const String ORGINAL_LANGUAGE = 'original_language';
   static const String MOVIE_PLOT = 'overview';
   static const String MOVIE_RATING = 'vote_average';
