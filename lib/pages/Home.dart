@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_bucket/widgets/Movie_tile.dart';
 
 import '../services/api_services.dart';
 import '../widgets/Carousel.dart';
@@ -49,68 +50,45 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             },
           ),
           Divider(),
-          FutureBuilder(
-            future: MovieServices.getMoviesNowPlaying(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              return Carousel(
-                  snapshot: snapshot.data,
-                  disableRating: true,
-                  height: 150,
-                  viewportFraction: 0.3,
-                  enlargeCenterPage: false,
-                  autoPlay: false,
-                  scrollPhysics: BouncingScrollPhysics(),
-                  pre: _text('IN THEATORS'),
-                  initialPage: 1,
-                  infiniteScroll: false);
-            },
-          ),
           Divider(),
           FutureBuilder(
-            future: MovieServices.getMoviesUpComing(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                  child: CircularProgressIndicator(),
+              future: MovieServices.getMoviesNowPlaying(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                return MovieTile(
+                  movieList: snapshot.data,
+                  preWidget: _text('IN THEATORS'),
                 );
-              return Carousel(
-                  snapshot: snapshot.data,
-                  disableRating: true,
-                  height: 150,
-                  viewportFraction: 0.3,
-                  enlargeCenterPage: false,
-                  autoPlay: false,
-                  scrollPhysics: BouncingScrollPhysics(),
-                  pre: _text('UP COMING'),
-                  initialPage: 1,
-                  infiniteScroll: false);
-            },
-          ),
+              }),
           Divider(),
           FutureBuilder(
-            future: MovieServices.getMoviesTopRated(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                  child: CircularProgressIndicator(),
+              future: MovieServices.getMoviesUpComing(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                return MovieTile(
+                  movieList: snapshot.data,
+                  preWidget: _text('UP COMING'),
                 );
-              return Carousel(
-                  snapshot: snapshot.data,
-                  disableRating: true,
-                  height: 150,
-                  viewportFraction: 0.3,
-                  enlargeCenterPage: false,
-                  autoPlay: false,
-                  scrollPhysics: BouncingScrollPhysics(),
-                  pre: _text('TOP RATED'),
-                  initialPage: 1,
-                  infiniteScroll: false);
-            },
-          ),
+              }),
+          Divider(),
+          FutureBuilder(
+              future: MovieServices.getMoviesTopRated(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                return MovieTile(
+                  movieList: snapshot.data,
+                  preWidget: _text('TOP RATED'),
+                );
+              }),
           SizedBox(
             height: 100,
           )
