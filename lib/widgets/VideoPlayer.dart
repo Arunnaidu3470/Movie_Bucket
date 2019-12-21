@@ -44,9 +44,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       showVideoProgressIndicator: true,
       progressIndicatorColor: Colors.amber,
       progressColors: ProgressBarColors(backgroundColor: Colors.cyan),
-      onReady: () {
-        print('Player is ready.');
-      },
+      onReady: () {},
     );
   }
 }
