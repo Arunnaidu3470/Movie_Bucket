@@ -3,6 +3,7 @@ import 'package:movie_bucket/constants/constants.dart';
 import 'package:movie_bucket/pages/Movie_details.dart';
 import 'package:movie_bucket/services/api_services.dart';
 
+@Deprecated('Use MovieTile()')
 class SimilarMovies extends StatefulWidget {
   final List<dynamic> moviesList;
   SimilarMovies({this.moviesList});
