@@ -50,7 +50,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             },
           ),
           Divider(),
-          Divider(),
           FutureBuilder(
               future: MovieServices.getMoviesNowPlaying(),
               builder: (context, snapshot) {
