@@ -276,3 +276,19 @@ class ImageServices {
     return '$BASE_URL$size$path';
   }
 }
+
+class PeopleServices {
+  ///contains services of actors
+
+  static final String _apiKey = Keys.TMDB_API_KEY;
+
+  static Future getPeopleDetailsById(int castId,
+      {String language = 'en'}) async {
+    ///returns a [Map<String,dynamic>] of People details
+    String url =
+        '${APIBase.TMDB_BASE_URL}/person/$castId?api_key=$_apiKey&language=$language';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    return data;
+  }
+}
