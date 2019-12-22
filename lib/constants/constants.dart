@@ -39,3 +39,19 @@ class SimilarMovieConstants {
   static const String MOVIE_POSTER = 'poster_path';
   static const String MOVIE_RELEASE_DATE = 'release_date';
 }
+
+class PeopleConstant {
+  static const String PEOPLE_ID = 'id';
+  static const String IMDB_ID = 'imdb_id';
+  static const String NAME = 'name';
+  static const String GENDER = 'gender';
+  static const String KNOWN_FOR_DEPARTMENT = 'known_for_department';
+  static const String BIOGRAPHY = 'biography';
+  static const String PLACE_OF_BIRTH = 'place_of_birth';
+  static const String BIRTHDAY = 'birthday';
+  static const String DEATH_DAY = 'deathday';
+  static const String POPULARITY = 'popularity';
+  static const String PROFILE_PATH = 'profile_path';
+  static const String ADULT = 'adult';
+  static const String HOMEPAGE = 'homepage';
+}
