@@ -58,7 +58,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     child: CircularProgressIndicator(),
                   );
                 return MovieTile(
-                  movieList: snapshot.data,
+                  list: snapshot.data,
                   preWidget: _text('IN THEATORS'),
                 );
               }),
@@ -71,7 +71,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     child: CircularProgressIndicator(),
                   );
                 return MovieTile(
-                  movieList: snapshot.data,
+                  list: snapshot.data,
                   preWidget: _text('UP COMING'),
                 );
               }),
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     child: CircularProgressIndicator(),
                   );
                 return MovieTile(
-                  movieList: snapshot.data,
+                  list: snapshot.data,
                   preWidget: _text('TOP RATED'),
                 );
               }),
