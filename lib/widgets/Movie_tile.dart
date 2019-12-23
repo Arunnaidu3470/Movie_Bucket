@@ -4,13 +4,14 @@ import 'package:movie_bucket/pages/Movie_details.dart';
 import 'package:movie_bucket/services/api_services.dart';
 
 class MovieTile extends StatelessWidget {
-  final List<dynamic> movieList;
+  final List<dynamic> list;
   final Widget preWidget;
-  MovieTile({this.movieList, this.preWidget});
+  MovieTile({this.list, this.preWidget});
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 200,
+      padding: const EdgeInsets.only(top: 5, bottom: 5),
       child: _assemble(),
     );
   }
@@ -21,13 +22,13 @@ class MovieTile extends StatelessWidget {
     return ListView.builder(
       physics: BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
-      itemCount: movieList.length + addPreTile,
+      itemCount: list.length + addPreTile,
       itemBuilder: (context, index) {
         if (addPreTile != 0 && index == 0) return _pre();
         return _Tile(
-          imagePath: movieList[index - addPreTile][MovieConstants.MOVIE_POSTER],
-          movieTitle: movieList[index - addPreTile][MovieConstants.MOVIE_TITLE],
-          movieId: movieList[index - addPreTile][MovieConstants.MOVIE_ID],
+          imagePath: list[index - addPreTile][MovieConstants.MOVIE_POSTER],
+          movieTitle: list[index - addPreTile][MovieConstants.MOVIE_TITLE],
+          movieId: list[index - addPreTile][MovieConstants.MOVIE_ID],
         );
       },
     );

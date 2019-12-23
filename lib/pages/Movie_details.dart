@@ -261,7 +261,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               Container(
                 height: 200,
                 child: MovieTile(
-                  movieList: snapshot.data,
+                  list: snapshot.data,
                 ),
               ),
             ],

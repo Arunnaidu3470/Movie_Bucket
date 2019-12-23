@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movie_bucket/constants/constants.dart';
-import 'package:movie_bucket/services/api_services.dart';
+import '../constants/constants.dart';
+import '../pages/People_detail.dart';
+import '../services/api_services.dart';
 
 class CastDetails extends StatelessWidget {
   final List<dynamic> castList;
@@ -43,6 +44,7 @@ class CastDetails extends StatelessWidget {
                   imgPath: castList[index][CastConstants.PROFILE_PATH],
                   name: castList[index][CastConstants.NAME],
                   characterName: castList[index][CastConstants.CHARACTER_NAME],
+                  castId: castList[index][CastConstants.ACTOR_ID],
                 );
               }),
         ),
@@ -55,39 +57,52 @@ class CastTile extends StatefulWidget {
   final String imgPath;
   final String name;
   final String characterName;
-  CastTile({this.imgPath, this.name, this.characterName});
+  final int castId;
+  CastTile({this.imgPath, this.name, this.characterName, this.castId});
 
   @override
   _CastTileState createState() => _CastTileState();
 }
 
 class _CastTileState extends State<CastTile> {
+  _goToPeopleDetailsPage() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return PeopleDetailPage(
+        castId: widget.castId,
+        castName: widget.name,
+      );
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
-      child: Column(
-        children: [
-          if (widget.imgPath != null)
-            CircleAvatar(
-              backgroundImage: NetworkImage(ImageServices.getImageUrlOf(
-                  widget.imgPath,
-                  size: ImageServices.PROFILE_SIZE_MEDIUM)),
-              radius: 40.0,
-            )
-          else
-            CircleAvatar(
-              child: Icon(
-                Icons.account_circle,
-                size: 40.0,
+    return GestureDetector(
+      onTap: () => _goToPeopleDetailsPage(),
+      child: Padding(
+        padding: const EdgeInsets.only(right: 16.0),
+        child: Column(
+          children: [
+            if (widget.imgPath != null)
+              CircleAvatar(
+                backgroundImage: NetworkImage(ImageServices.getImageUrlOf(
+                    widget.imgPath,
+                    size: ImageServices.PROFILE_SIZE_MEDIUM)),
+                radius: 40.0,
+              )
+            else
+              CircleAvatar(
+                child: Icon(
+                  Icons.account_circle,
+                  size: 40.0,
+                ),
+                radius: 40.0,
               ),
-              radius: 40.0,
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(widget.name),
             ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(widget.name),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
