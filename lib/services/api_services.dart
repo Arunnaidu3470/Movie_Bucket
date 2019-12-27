@@ -169,67 +169,6 @@ class MovieServices extends APIBase {
   }
 }
 
-class TvServices {
-  static final String _apiKey = Keys.TMDB_API_KEY;
-
-  ///to Query movies by [id]
-  static Future getTvById({@required String id, String language = 'en'}) async {
-    String url =
-        '${APIBase.TMDB_BASE_URL}/movie/$id?api_key=$_apiKey&language=$language';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    return data;
-  }
-
-  ///to Query movies by [title]
-  static Future getTvByTitle(
-      {@required String title, String language = 'en'}) async {
-    String url =
-        '${APIBase.TMDB_BASE_URL}/movie/$title?api_key=$_apiKey&language=$language';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    return data;
-  }
-
-  ///to Query external ids of movie with [movie id]
-  static Future getExternalIdsOfTv({@required String id}) async {
-    String url =
-        '${APIBase.TMDB_BASE_URL}/movie/$id/external_ids?api_key=$_apiKey';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    return data; //returnes body of the ids in json formate
-  }
-
-  static Future getTvNowAir(
-      {String language = 'en', String region = 'us'}) async {
-    String url =
-        '${APIBase.TMDB_BASE_URL}/tv/on_the_air?api_key=$_apiKey&language=$language&page=1';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    return data['results']; //returnes body of the ids in json formate
-  }
-
-  ///returns a list of upcoming movies default [region] is USA
-  static Future getTvPopular(
-      {String language = 'en', String region = 'us'}) async {
-    String url =
-        '${APIBase.TMDB_BASE_URL}/tv/popular?api_key=$_apiKey&language=$language&page=1';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    return data['results']; //returnes body of the ids in json formate
-  }
-
-  ///returns a list of upcoming movies default [region] is USA
-  static Future getTvTopRated(
-      {String language = 'en', String region = 'us'}) async {
-    String url =
-        '${APIBase.TMDB_BASE_URL}/tv/popular?api_key=$_apiKey&language=$language&page=1';
-    http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-    return data['results']; //returnes body of the ids in json formate
-  }
-}
-
 class ImageServices {
   static const String BASE_URL = 'https://image.tmdb.org/t/p';
 
