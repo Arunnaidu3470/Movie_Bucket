@@ -5,7 +5,12 @@ import '../services/api_services.dart';
 
 class CastDetails extends StatelessWidget {
   final List<dynamic> castList;
-  CastDetails({@required this.castList});
+  final String widgetTitle;
+  final IconData icon;
+  CastDetails(
+      {@required this.castList,
+      this.widgetTitle = 'Actors',
+      this.icon = Icons.recent_actors});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +26,11 @@ class CastDetails extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Icon(
-                Icons.recent_actors,
+                icon,
                 color: Theme.of(context).colorScheme.primary,
               ),
               Text(
-                ' Actors',
+                ' $widgetTitle',
                 style: TextStyle(
                     fontSize: 20, color: Theme.of(context).colorScheme.primary),
               ),
