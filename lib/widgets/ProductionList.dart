@@ -3,14 +3,14 @@ import '../constants/constants.dart';
 import '../pages/People_detail.dart';
 import '../services/api_services.dart';
 
-class CastDetails extends StatelessWidget {
-  final List<dynamic> castList;
-  final String widgetTitle;
-  final IconData icon;
-  CastDetails(
-      {@required this.castList,
-      this.widgetTitle = 'Actors',
-      this.icon = Icons.recent_actors});
+class ProductionList extends StatelessWidget {
+  final List<dynamic> list;
+  final String listTitle;
+  final IconData listIcon;
+  ProductionList(
+      {@required this.list,
+      this.listTitle = 'Production',
+      this.listIcon = Icons.videocam});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,11 @@ class CastDetails extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Icon(
-                icon,
+                listIcon,
                 color: Theme.of(context).colorScheme.primary,
               ),
               Text(
-                ' $widgetTitle',
+                ' $listTitle',
                 style: TextStyle(
                     fontSize: 20, color: Theme.of(context).colorScheme.primary),
               ),
@@ -40,16 +40,16 @@ class CastDetails extends StatelessWidget {
         SizedBox.fromSize(
           size: const Size.fromHeight(120.0),
           child: ListView.builder(
-              itemCount: castList.length,
+              itemCount: list.length,
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.only(top: 12.0, left: 20.0),
               itemBuilder: (_, index) {
-                return CastTile(
-                  imgPath: castList[index][CastConstants.PROFILE_PATH],
-                  name: castList[index][CastConstants.NAME],
-                  characterName: castList[index][CastConstants.CHARACTER_NAME],
-                  castId: castList[index][CastConstants.ACTOR_ID],
+                return _Tile(
+                  imgPath: list[index][ProductionConstant.LOGO_PATH],
+                  name: list[index][ProductionConstant.NAME],
+                  country: list[index][ProductionConstant.ORIGIN_COUNTRY],
+                  id: list[index][ProductionConstant.ID],
                 );
               }),
         ),
@@ -58,22 +58,22 @@ class CastDetails extends StatelessWidget {
   }
 }
 
-class CastTile extends StatefulWidget {
+class _Tile extends StatefulWidget {
   final String imgPath;
   final String name;
-  final String characterName;
-  final int castId;
-  CastTile({this.imgPath, this.name, this.characterName, this.castId});
+  final String country;
+  final int id;
+  _Tile({this.imgPath, this.name, this.country, this.id});
 
   @override
-  _CastTileState createState() => _CastTileState();
+  _TileState createState() => _TileState();
 }
 
-class _CastTileState extends State<CastTile> {
+class _TileState extends State<_Tile> {
   _goToPeopleDetailsPage() {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return PeopleDetailPage(
-        castId: widget.castId,
+        castId: widget.id,
         castName: widget.name,
       );
     }));
@@ -82,7 +82,7 @@ class _CastTileState extends State<CastTile> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _goToPeopleDetailsPage(),
+      // onTap: () => _goToPeopleDetailsPage(),
       child: Padding(
         padding: const EdgeInsets.only(right: 16.0),
         child: Column(
@@ -91,14 +91,15 @@ class _CastTileState extends State<CastTile> {
               CircleAvatar(
                 backgroundImage: NetworkImage(ImageServices.getImageUrlOf(
                     widget.imgPath,
-                    size: ImageServices.PROFILE_SIZE_MEDIUM)),
+                    size: ImageServices.LOGO_SIZE_MEDIUM)),
                 radius: 40.0,
               )
             else
               CircleAvatar(
+                backgroundColor: Colors.grey.withOpacity(0.2),
                 child: Icon(
-                  Icons.account_circle,
-                  size: 40.0,
+                  Icons.videocam,
+                  size: 30.0,
                 ),
                 radius: 40.0,
               ),
