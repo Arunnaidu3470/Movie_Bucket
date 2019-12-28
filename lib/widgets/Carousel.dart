@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'PosterTile.dart';
 
+@Deprecated('Replaced Carousel item')
 class Carousel extends StatefulWidget {
   final List<dynamic> snapshot;
   final num viewportFraction;

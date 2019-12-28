@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_bucket/pages/Movie_details.dart';
 import 'package:movie_bucket/services/api_services.dart';
 
+@Deprecated('Replaced by Carousel_item')
 class PosterTile extends StatefulWidget {
   final String name;
   final String plot;
