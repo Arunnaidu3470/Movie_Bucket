@@ -83,7 +83,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   Widget _assemble(BuildContext context, {dynamic data}) {
     return Column(
       children: <Widget>[
-        _geners(generData: data[MovieConstants.Movie_GENERS]),
+        _geners(generData: data[MovieConstants.MOVIE_GENERS]),
         _releasedDate(date: data[MovieConstants.MOVIE_RELEASE_DATE]),
         Divider(),
         _plot(plot: data[MovieConstants.MOVIE_PLOT]),
