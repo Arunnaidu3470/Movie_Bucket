@@ -1,8 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import '../widgets/Movie_tile.dart';
 
+import '../constants/constants.dart';
+import '../widgets/Carousel_Item.dart';
+import '../widgets/Movie_tile.dart';
 import '../services/api_services.dart';
-import '../widgets/Carousel.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -39,13 +41,24 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           FutureBuilder(
             future: APIServices.getLatestMovies(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              return Carousel(
-                snapshot: snapshot.data,
-                disableRating: false,
+              if (!snapshot.hasData) return Container();
+              List<dynamic> list = snapshot.data;
+              return CarouselSlider(
+                autoPlay: true,
+                pauseAutoPlayOnTouch: Duration(seconds: 4),
+                enlargeCenterPage: true,
+                items: list.map((item) {
+                  return CarouselItem(
+                    context: context,
+                    id: item[MovieConstants.MOVIE_ID],
+                    backgroundImage:
+                        item[MovieConstants.MOVIE_BACK_DROP_POSTER],
+                    forgroundImage: item[MovieConstants.MOVIE_POSTER],
+                    itemType: CarouselItemType.movie,
+                    title: item[MovieConstants.MOVIE_TITLE],
+                    popularity: item[MovieConstants.POPULARITY],
+                  );
+                }).toList(),
               );
             },
           ),

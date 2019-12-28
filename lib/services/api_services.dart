@@ -9,6 +9,7 @@ class APIBase {
   static const IMAGE_URL = 'https://image.tmdb.org/t/p/w342';
 }
 
+@Deprecated('Everything has its own class')
 class APIServices {
   static final String _apiKey = Keys.TMDB_API_KEY;
 
@@ -27,12 +28,13 @@ class APIServices {
     return data['results'];
   }
 
-  @Deprecated('Movied to IMageServices')
-  static String getImageUrlOfMovie(String path) {
-    return '${APIBase.IMAGE_URL}$path';
-  }
-
   ///grturns youtube url
+  static String getYoutubeUrl(String youtubeid) {
+    return 'https://www.youtube.com/watch?v=$youtubeid';
+  }
+}
+
+class YoutubeServices {
   static String getYoutubeUrl(String youtubeid) {
     return 'https://www.youtube.com/watch?v=$youtubeid';
   }
@@ -40,6 +42,20 @@ class APIServices {
 
 class MovieServices extends APIBase {
   static final String _apiKey = Keys.TMDB_API_KEY;
+
+  static Future getLatestMovies(
+      {String language = 'en', bool adult = false, int year = 2020}) async {
+    var dat = DateTime.now();
+    if (year == 0 || year == null) year = dat.year;
+    String url =
+        '${APIBase.TMDB_BASE_URL}/discover/movie?api_key=$_apiKey&$language&sort_by=popularity.desc&include_adult=' +
+            adult.toString() +
+            'primary_release_year=${(year - 1).toString()}&year=${year.toString()}' +
+            '&include_video=false&page=1';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    return data['results'];
+  }
 
   ///to Query movies by [id]
   static Future getMovieById(

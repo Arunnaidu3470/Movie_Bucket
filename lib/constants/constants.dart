@@ -6,7 +6,8 @@ class MovieConstants {
   static const String MOVIE_BACK_DROP_POSTER = 'backdrop_path';
   static const String MOVIE_RELEASE_DATE = 'release_date';
   static const String MOVIE_ID = 'id';
-  static const String Movie_GENERS = 'genres';
+  static const String MOVIE_GENERS = 'genres';
+  static const String POPULARITY = 'popularity';
 }
 
 class CastConstants {
