@@ -18,6 +18,7 @@ class TVServices {
     return data;
   }
 
+  ///Get the primary TV show details by id.
   /// Get Show details as Map<String,dynamic>
   /// Optional parameters [language] default en-US
   static Future getShowDetailsById(int showId,

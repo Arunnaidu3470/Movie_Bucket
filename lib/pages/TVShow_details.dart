@@ -53,6 +53,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
                     list: snapshot.data['production_companies'],
                   ),
                   Divider(),
+                  _seasons(seasonList: snapshot.data['seasons']),
                   SizedBox(
                     height: 40,
                   ),
@@ -145,7 +146,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
                   ),
                   _popularity(snapshot.data[TVShowConstants.POPULARITY]),
                   _year(snapshot.data[TVShowConstants.AIR_DATE]),
-                  _rating(snapshot.data[TVShowConstants.RATING])
+                  _rating(snapshot.data[TVShowConstants.RATING]),
                 ],
               ),
             ),
@@ -334,5 +335,52 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
             ],
           );
         });
+  }
+
+  Widget _seasons({List<dynamic> seasonList}) {
+    return Column(
+      children: seasonList.map((item) {
+        return _expansionTile(
+            title: item['name'],
+            imgPath: item['poster_path'],
+            overview: item['overview'],
+            episodecount: item['episode_count']);
+      }).toList(),
+    );
+  }
+
+  Widget _expansionTile(
+      {String title, String imgPath, String overview, int episodecount}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0, bottom: 5, left: 2, right: 2),
+      child: ExpansionTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: FadeInImage(
+            width: 50,
+            height: 200,
+            image: NetworkImage(
+              ImageServices.getImageUrlOf(imgPath,
+                  size: ImageServices.POSTER_SIZE_LOWEST),
+            ),
+            placeholder: AssetImage('assets/loading.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        title: Text('$title'),
+        subtitle: Text('Total Episodes $episodecount'),
+        children: <Widget>[
+          Container(
+              alignment: Alignment.centerLeft,
+              width: 300,
+              child: Text(overview != null ? '$overview' : 'No info')),
+          OutlineButton.icon(
+            icon: Icon(Icons.open_in_new),
+            label: Text('More Info'),
+            onPressed: () {},
+          )
+        ],
+      ),
+    );
   }
 }
