@@ -348,6 +348,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
           overview: item['overview'],
           episodecount: item['episode_count'],
           id: item['id'],
+          seasonNumber: item['season_number'],
         );
       }).toList(),
     );
@@ -358,6 +359,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
       String imgPath,
       String overview,
       int episodecount,
+      int seasonNumber,
       int id}) {
     return Padding(
       padding: const EdgeInsets.only(top: 5.0, bottom: 5, left: 2, right: 2),
@@ -389,10 +391,13 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
             splashColor: Colors.green[100],
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            icon: Icon(Icons.open_in_new),
-            label: Text('More Info'),
+            icon: Icon(Icons.library_books),
+            label: Text('Episodes'),
             onPressed: () {
-              _showEposides();
+              _showEposides(
+                  tvId: widget.showId,
+                  seasonNumber: seasonNumber,
+                  totalEpisodes: episodecount);
             },
           )
         ],
@@ -400,7 +405,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
     );
   }
 
-  _showEposides() {
+  _showEposides({int tvId, int seasonNumber, int totalEpisodes}) {
     _scaffoldKey.currentState.showBottomSheet(
       (context) {
         return DraggableScrollableSheet(
@@ -412,26 +417,34 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
               child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.green),
+                      color: Colors.white),
                   child: Stack(
                     children: <Widget>[
                       Positioned.fill(
-                        top: 10,
+                        top: 20,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListView.builder(
-                            itemCount: 60,
-                            physics: BouncingScrollPhysics(),
-                            controller: scrollController,
-                            itemBuilder: (_, index) {
-                              return Text('$index');
-                            },
-                          ),
+                          padding: const EdgeInsets.only(
+                              top: 20, left: 8, right: 8, bottom: 1),
+                          child: _epsoides(tvId, seasonNumber,
+                              scrollController: scrollController),
                         ),
                       ),
                       Align(
                         alignment: Alignment.topCenter,
-                        child: Icon(Icons.keyboard_arrow_up),
+                        child: Chip(
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                width: 0.3,
+                                color: Colors.pink,
+                              ),
+                              borderRadius: BorderRadius.circular(20)),
+                          backgroundColor: Colors.white10,
+                          label: Text(
+                            totalEpisodes == null ? '' : '$totalEpisodes',
+                            style: TextStyle(color: Colors.pink),
+                          ),
+                          avatar: Icon(Icons.keyboard_arrow_up),
+                        ),
                       ),
                     ],
                   )),
@@ -442,6 +455,37 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
         );
       },
       backgroundColor: Colors.transparent,
+    );
+  }
+
+  Widget _epsoides(int tvId, int seasonNumber,
+      {ScrollController scrollController}) {
+    return FutureBuilder(
+      future: TVServices.getSeasonDetailsById(tvId, seasonNumber),
+      builder: (_, snapshot) {
+        if (!snapshot.hasData) return Center(child: LinearProgressIndicator());
+        return ListView.builder(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.all(8),
+          itemCount: snapshot.data.length,
+          controller: scrollController,
+          itemBuilder: ((context, index) {
+            return Column(
+              children: <Widget>[
+                Text(
+                  snapshot.data[index]['name'],
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  snapshot.data[index]['overview'],
+                  style: TextStyle(fontSize: 15, color: Colors.black54),
+                ),
+                Divider(),
+              ],
+            );
+          }),
+        );
+      },
     );
   }
 }
