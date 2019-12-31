@@ -18,10 +18,12 @@ class TVShowDetailsPage extends StatefulWidget {
 }
 
 class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _showMoreBio = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: FutureBuilder(
         future: TVServices.getShowDetailsById(widget.showId),
         builder: (context, snapshot) {
@@ -341,16 +343,22 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
     return Column(
       children: seasonList.map((item) {
         return _expansionTile(
-            title: item['name'],
-            imgPath: item['poster_path'],
-            overview: item['overview'],
-            episodecount: item['episode_count']);
+          title: item['name'],
+          imgPath: item['poster_path'],
+          overview: item['overview'],
+          episodecount: item['episode_count'],
+          id: item['id'],
+        );
       }).toList(),
     );
   }
 
   Widget _expansionTile(
-      {String title, String imgPath, String overview, int episodecount}) {
+      {String title,
+      String imgPath,
+      String overview,
+      int episodecount,
+      int id}) {
     return Padding(
       padding: const EdgeInsets.only(top: 5.0, bottom: 5, left: 2, right: 2),
       child: ExpansionTile(
@@ -375,12 +383,65 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
               width: 300,
               child: Text(overview != null ? '$overview' : 'No info')),
           OutlineButton.icon(
+            highlightedBorderColor: Colors.green[100],
+            textColor: Colors.green[500],
+            color: Colors.green[100],
+            splashColor: Colors.green[100],
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             icon: Icon(Icons.open_in_new),
             label: Text('More Info'),
-            onPressed: () {},
+            onPressed: () {
+              _showEposides();
+            },
           )
         ],
       ),
+    );
+  }
+
+  _showEposides() {
+    _scaffoldKey.currentState.showBottomSheet(
+      (context) {
+        return DraggableScrollableSheet(
+          builder: (_, scrollController) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              elevation: 10,
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.green),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        top: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListView.builder(
+                            itemCount: 60,
+                            physics: BouncingScrollPhysics(),
+                            controller: scrollController,
+                            itemBuilder: (_, index) {
+                              return Text('$index');
+                            },
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Icon(Icons.keyboard_arrow_up),
+                      ),
+                    ],
+                  )),
+            );
+          },
+          minChildSize: 0.1,
+          maxChildSize: 0.75,
+        );
+      },
+      backgroundColor: Colors.transparent,
     );
   }
 }
