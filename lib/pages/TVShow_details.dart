@@ -18,10 +18,12 @@ class TVShowDetailsPage extends StatefulWidget {
 }
 
 class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _showMoreBio = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: FutureBuilder(
         future: TVServices.getShowDetailsById(widget.showId),
         builder: (context, snapshot) {
@@ -53,6 +55,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
                     list: snapshot.data['production_companies'],
                   ),
                   Divider(),
+                  _seasons(seasonList: snapshot.data['seasons']),
                   SizedBox(
                     height: 40,
                   ),
@@ -145,7 +148,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
                   ),
                   _popularity(snapshot.data[TVShowConstants.POPULARITY]),
                   _year(snapshot.data[TVShowConstants.AIR_DATE]),
-                  _rating(snapshot.data[TVShowConstants.RATING])
+                  _rating(snapshot.data[TVShowConstants.RATING]),
                 ],
               ),
             ),
@@ -334,5 +337,155 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
             ],
           );
         });
+  }
+
+  Widget _seasons({List<dynamic> seasonList}) {
+    return Column(
+      children: seasonList.map((item) {
+        return _expansionTile(
+          title: item['name'],
+          imgPath: item['poster_path'],
+          overview: item['overview'],
+          episodecount: item['episode_count'],
+          id: item['id'],
+          seasonNumber: item['season_number'],
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _expansionTile(
+      {String title,
+      String imgPath,
+      String overview,
+      int episodecount,
+      int seasonNumber,
+      int id}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0, bottom: 5, left: 2, right: 2),
+      child: ExpansionTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: FadeInImage(
+            width: 50,
+            height: 200,
+            image: NetworkImage(
+              ImageServices.getImageUrlOf(imgPath,
+                  size: ImageServices.POSTER_SIZE_LOWEST),
+            ),
+            placeholder: AssetImage('assets/loading.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        title: Text('$title'),
+        subtitle: Text('Total Episodes $episodecount'),
+        children: <Widget>[
+          Container(
+              alignment: Alignment.centerLeft,
+              width: 300,
+              child: Text(overview != null ? '$overview' : 'No info')),
+          OutlineButton.icon(
+            highlightedBorderColor: Colors.green[100],
+            textColor: Colors.green[500],
+            color: Colors.green[100],
+            splashColor: Colors.green[100],
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            icon: Icon(Icons.library_books),
+            label: Text('Episodes'),
+            onPressed: () {
+              _showEposides(
+                  tvId: widget.showId,
+                  seasonNumber: seasonNumber,
+                  totalEpisodes: episodecount);
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  _showEposides({int tvId, int seasonNumber, int totalEpisodes}) {
+    _scaffoldKey.currentState.showBottomSheet(
+      (context) {
+        return DraggableScrollableSheet(
+          builder: (_, scrollController) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              elevation: 10,
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        top: 20,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, left: 8, right: 8, bottom: 1),
+                          child: _epsoides(tvId, seasonNumber,
+                              scrollController: scrollController),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Chip(
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                width: 0.3,
+                                color: Colors.pink,
+                              ),
+                              borderRadius: BorderRadius.circular(20)),
+                          backgroundColor: Colors.white10,
+                          label: Text(
+                            totalEpisodes == null ? '' : '$totalEpisodes',
+                            style: TextStyle(color: Colors.pink),
+                          ),
+                          avatar: Icon(Icons.keyboard_arrow_up),
+                        ),
+                      ),
+                    ],
+                  )),
+            );
+          },
+          minChildSize: 0.1,
+          maxChildSize: 0.75,
+        );
+      },
+      backgroundColor: Colors.transparent,
+    );
+  }
+
+  Widget _epsoides(int tvId, int seasonNumber,
+      {ScrollController scrollController}) {
+    return FutureBuilder(
+      future: TVServices.getSeasonDetailsById(tvId, seasonNumber),
+      builder: (_, snapshot) {
+        if (!snapshot.hasData) return Center(child: LinearProgressIndicator());
+        return ListView.builder(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.all(8),
+          itemCount: snapshot.data.length,
+          controller: scrollController,
+          itemBuilder: ((context, index) {
+            return Column(
+              children: <Widget>[
+                Text(
+                  snapshot.data[index]['name'],
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  snapshot.data[index]['overview'],
+                  style: TextStyle(fontSize: 15, color: Colors.black54),
+                ),
+                Divider(),
+              ],
+            );
+          }),
+        );
+      },
+    );
   }
 }

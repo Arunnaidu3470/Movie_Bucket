@@ -18,6 +18,7 @@ class TVServices {
     return data;
   }
 
+  ///Get the primary TV show details by id.
   /// Get Show details as Map<String,dynamic>
   /// Optional parameters [language] default en-US
   static Future getShowDetailsById(int showId,
@@ -57,5 +58,15 @@ class TVServices {
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
     return data['results'];
+  }
+
+  ///Get a list of the top rated TV shows on TMDb.
+  static Future getSeasonDetailsById(int tvId, int seasonNumber,
+      {int page = 1, String language = 'en-US'}) async {
+    String url =
+        '$_baseUrl/$tvId/season/$seasonNumber?api_key=$_apiKey&language=$language';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    return data['episodes'];
   }
 }
