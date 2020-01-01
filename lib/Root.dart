@@ -17,7 +17,7 @@ class _RootPageState extends State<RootPage>
       PageController(initialPage: 0, keepPage: true);
 
   int _selectedPage = 0;
-  List<String> _pageTitles = <String>['Movies', 'TvShows', 'Search'];
+  List<String> _pageTitles = <String>['Movies', 'TvShows'];
 
   @override
   void initState() {
@@ -30,6 +30,15 @@ class _RootPageState extends State<RootPage>
       appBar: AppBar(
         title: Text(_pageTitles[_selectedPage]),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.search),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+            return Search();
+          }));
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: PageView(
         physics: BouncingScrollPhysics(),
         controller: _pageController,
@@ -37,7 +46,6 @@ class _RootPageState extends State<RootPage>
         children: <Widget>[
           Home(),
           TVshows(),
-          Search(),
         ],
       ),
       bottomNavigationBar: BottomNavyBar(
@@ -56,11 +64,6 @@ class _RootPageState extends State<RootPage>
             icon: Icon(Icons.tv),
             title: Text('TV Shows'),
             activeColor: Colors.purpleAccent,
-          ),
-          BottomNavyBarItem(
-            icon: Icon(Icons.search),
-            title: Text('Search'),
-            activeColor: Colors.pink,
           ),
         ],
       ),

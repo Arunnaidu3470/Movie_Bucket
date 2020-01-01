@@ -46,6 +46,9 @@ class _SearchState extends State<Search> {
       cursorColor: Colors.white,
       controller: _textEditingController,
       decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(1),
+          filled: true,
+          fillColor: Colors.white10,
           border: OutlineInputBorder(borderSide: BorderSide.none),
           isDense: false,
           prefixIcon: Icon(
@@ -109,7 +112,10 @@ class _SearchState extends State<Search> {
   Widget _searchResults() {
     if (_query == null || _query.isEmpty)
       return Center(
-        child: _chipSuggestions(),
+        child: AnimatedOpacity(
+            duration: Duration(milliseconds: 500),
+            opacity: _searchSuggestions == null ? 0 : 1,
+            child: _chipSuggestions()),
       );
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -157,54 +163,42 @@ class _SearchState extends State<Search> {
     String personImage = result[index]['profile_path'];
     Color color = Theme.of(context).primaryColor;
     if (mediaType == 'tv') {
+      //if result is tv
       return ListTile(
         title: Text(tvTitle == null ? ' ' : tvTitle),
         subtitle: Text(
           mediaType == null ? ' ' : mediaType,
         ),
         leading: tvImage != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  ImageServices.getImageUrlOf(tvImage,
-                      size: ImageServices.POSTER_SIZE_LOW),
-                  fit: BoxFit.cover,
-                ),
-              )
+            ? _tileImage(tvImage)
             : Icon(
                 Icons.tv,
                 color: color,
               ),
       );
     } else if (mediaType == 'movie') {
+      //if result is a movie
       return ListTile(
         title: Text(movieTitle == null ? ' ' : movieTitle),
         subtitle: Text(
           mediaType == null ? ' ' : mediaType,
         ),
         leading: movieImage != null
-            ? Image.network(
-                ImageServices.getImageUrlOf(movieImage,
-                    size: ImageServices.POSTER_SIZE_LOW),
-                fit: BoxFit.cover,
-              )
+            ? _tileImage(movieImage)
             : Icon(
                 Icons.local_movies,
                 color: color,
               ),
       );
     } else if (mediaType == 'person') {
+      //if result is a person
       return ListTile(
         title: Text(personName == null ? ' ' : personName),
         subtitle: Text(
           mediaType == null ? ' ' : mediaType,
         ),
         leading: personImage != null
-            ? Image.network(
-                ImageServices.getImageUrlOf(personImage,
-                    size: ImageServices.PROFILE_SIZE_LOWEST),
-                fit: BoxFit.cover,
-              )
+            ? _tileImage(personImage)
             : Icon(
                 Icons.person,
                 color: color,
@@ -215,6 +209,18 @@ class _SearchState extends State<Search> {
         title: Text('error'),
       );
     }
+  }
+
+  Widget _tileImage(String image) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: FadeInImage.assetNetwork(
+        image: ImageServices.getImageUrlOf(image,
+            size: ImageServices.POSTER_SIZE_LOW),
+        placeholder: 'assets/loading.png',
+        fit: BoxFit.cover,
+      ),
+    );
   }
 
   _onTapResult(int index, String mediaType, int id, String title,
