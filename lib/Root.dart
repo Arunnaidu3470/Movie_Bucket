@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
@@ -16,6 +17,7 @@ class _RootPageState extends State<RootPage>
       PageController(initialPage: 0, keepPage: true);
 
   int _selectedPage = 0;
+  List<String> _pageTitles = <String>['Movies', 'TvShows', 'Search'];
 
   @override
   void initState() {
@@ -25,6 +27,9 @@ class _RootPageState extends State<RootPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_pageTitles[_selectedPage]),
+      ),
       body: PageView(
         physics: BouncingScrollPhysics(),
         controller: _pageController,

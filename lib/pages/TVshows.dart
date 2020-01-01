@@ -17,12 +17,7 @@ class _TVshowsState extends State<TVshows> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TV shows'),
-      ),
-      body: _assemble(),
-    );
+    return _assemble();
   }
 
   Widget _assemble() {
