@@ -20,6 +20,7 @@ class TVShowDetailsPage extends StatefulWidget {
 class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _showMoreBio = false;
+  int _stackIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -409,7 +410,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
     _scaffoldKey.currentState.showBottomSheet(
       (context) {
         return DraggableScrollableSheet(
-          builder: (_, scrollController) {
+          builder: (context, scrollController) {
             return Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
@@ -451,9 +452,10 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
             );
           },
           minChildSize: 0.1,
-          maxChildSize: 0.75,
+          maxChildSize: 0.6,
         );
       },
+      clipBehavior: Clip.antiAlias,
       backgroundColor: Colors.transparent,
     );
   }
