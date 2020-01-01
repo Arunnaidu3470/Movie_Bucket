@@ -14,13 +14,23 @@ class _RootPageState extends State<RootPage>
     with SingleTickerProviderStateMixin {
   PageController _pageController =
       PageController(initialPage: 0, keepPage: true);
-
+  AnimationController _animationController;
+  bool isPlaying = false;
   int _selectedPage = 0;
   List<String> _pageTitles = <String>['Movies', 'TvShows'];
 
   @override
   void initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -39,7 +49,7 @@ class _RootPageState extends State<RootPage>
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: PageView(
-          physics: BouncingScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           controller: _pageController,
           onPageChanged: (index) => _onPageChanged(index),
           children: <Widget>[
@@ -48,27 +58,6 @@ class _RootPageState extends State<RootPage>
           ],
         ),
         bottomNavigationBar: _bottamAppBar());
-  }
-
-  Widget _bottamNavigationBar() {
-    return BottomNavigationBar(
-      onTap: _onItemSelected,
-      currentIndex: _selectedPage,
-      iconSize: 30,
-      type: BottomNavigationBarType.shifting,
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.local_movies),
-          title: Text('Movies'),
-          backgroundColor: Colors.red,
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.tv),
-          title: Text('TV Shows'),
-          backgroundColor: Colors.green,
-        )
-      ],
-    );
   }
 
   Widget _bottamAppBar() {
@@ -84,11 +73,13 @@ class _RootPageState extends State<RootPage>
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.local_movies),
+              activeIcon: Icon(Icons.movie),
               title: Text('Movies'),
               backgroundColor: Colors.red,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.tv),
+              activeIcon: Icon(Icons.ondemand_video),
               title: Text('TV Shows'),
               backgroundColor: Colors.green,
             )
