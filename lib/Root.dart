@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 import 'pages/Home.dart';
 import 'pages/TVshows.dart';
@@ -27,46 +26,73 @@ class _RootPageState extends State<RootPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_pageTitles[_selectedPage]),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.search),
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return Search();
-          }));
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: PageView(
-        physics: BouncingScrollPhysics(),
-        controller: _pageController,
-        onPageChanged: (index) => _onPageChanged(index),
-        children: <Widget>[
-          Home(),
-          TVshows(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavyBar(
-        showElevation: false,
-        animationDuration: Duration(milliseconds: 500),
-        iconSize: 30,
-        selectedIndex: _selectedPage,
-        onItemSelected: _onItemSelected,
-        items: [
-          BottomNavyBarItem(
-            icon: Icon(Icons.local_movies),
-            title: Text('Movies'),
-            activeColor: Colors.red,
-          ),
-          BottomNavyBarItem(
-            icon: Icon(Icons.tv),
-            title: Text('TV Shows'),
-            activeColor: Colors.purpleAccent,
-          ),
-        ],
-      ),
+        appBar: AppBar(
+          title: Text(_pageTitles[_selectedPage]),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.search),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+              return Search();
+            }));
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: PageView(
+          physics: BouncingScrollPhysics(),
+          controller: _pageController,
+          onPageChanged: (index) => _onPageChanged(index),
+          children: <Widget>[
+            Home(),
+            TVshows(),
+          ],
+        ),
+        bottomNavigationBar: _bottamAppBar());
+  }
+
+  Widget _bottamNavigationBar() {
+    return BottomNavigationBar(
+      onTap: _onItemSelected,
+      currentIndex: _selectedPage,
+      iconSize: 30,
+      type: BottomNavigationBarType.shifting,
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.local_movies),
+          title: Text('Movies'),
+          backgroundColor: Colors.red,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.tv),
+          title: Text('TV Shows'),
+          backgroundColor: Colors.green,
+        )
+      ],
+    );
+  }
+
+  Widget _bottamAppBar() {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      color: Colors.blueGrey,
+      notchMargin: 2.0,
+      clipBehavior: Clip.antiAlias,
+      child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          onTap: _onItemSelected,
+          currentIndex: _selectedPage,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_movies),
+              title: Text('Movies'),
+              backgroundColor: Colors.red,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.tv),
+              title: Text('TV Shows'),
+              backgroundColor: Colors.green,
+            )
+          ]),
     );
   }
 
