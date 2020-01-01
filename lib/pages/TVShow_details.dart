@@ -20,7 +20,6 @@ class TVShowDetailsPage extends StatefulWidget {
 class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _showMoreBio = false;
-  int _stackIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
