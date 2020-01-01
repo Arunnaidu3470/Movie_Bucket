@@ -16,15 +16,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Movie Bucket'),
-      ),
-      body: SafeArea(
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[_assemble()],
-        ),
+    return SafeArea(
+      child: ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[_assemble()],
       ),
     );
   }
