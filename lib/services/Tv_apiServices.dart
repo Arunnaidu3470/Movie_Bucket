@@ -78,6 +78,7 @@ class TVServices {
         '$_baseUrl/$showId/similar?api_key=$_apiKey&language=en-US&page=$page';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
+    if (data['results'] == null) return {};
     return data['results'];
   }
 }
