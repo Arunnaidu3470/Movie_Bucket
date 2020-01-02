@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import '../widgets/Carousel_Item.dart';
 import '../widgets/Movie_tile.dart';
-import '../services/api_services.dart';
+import '../services/Movie_apiServices.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             height: 10,
           ),
           FutureBuilder(
-            future: APIServices.getLatestMovies(),
+            future: MovieServices.getLatestMovies(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) return Container();
               List<dynamic> list = snapshot.data;

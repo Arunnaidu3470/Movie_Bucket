@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movie_bucket/constants/constants.dart';
-import 'package:movie_bucket/pages/Movie_details.dart';
-import 'package:movie_bucket/services/api_services.dart';
+
+import '../constants/constants.dart';
+import '../pages/Movie_details.dart';
+import '../services/Image_services.dart';
 
 class MovieTile extends StatelessWidget {
   final List<dynamic> list;

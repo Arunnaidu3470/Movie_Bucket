@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../pages/Movie_details.dart';
 import '../pages/People_detail.dart';
 import '../pages/TVShow_details.dart';
 import '../services/Tv_apiServices.dart';
-import '../services/api_services.dart';
+import '../services/Image_services.dart';
 import '../services/SearchApi.dart';
 
 class Search extends StatefulWidget {

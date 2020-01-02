@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../services/Tv_apiServices.dart';
+import '../widgets/TVshow_tile.dart';
 import '../constants/constants.dart';
-import '../services/api_services.dart';
+import '../services/Movie_apiServices.dart';
+import '../services/Image_services.dart';
 import '../widgets/Cast_Details.dart';
 import '../widgets/Movie_tile.dart';
 import '../widgets/VideoPlayer.dart';
@@ -54,6 +57,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   _cast(),
                   Divider(),
                   _similarMovies(),
+                  Divider(),
+                  _similarTVShows(),
                   Divider(),
                 ], addAutomaticKeepAlives: true),
               ),
@@ -264,6 +269,46 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   list: snapshot.data,
                 ),
               ),
+            ],
+          );
+        });
+  }
+
+  Widget _similarTVShows() {
+    return FutureBuilder(
+        future: TVServices.getSimilarShowsById(widget.id),
+        builder: (_, snapshot) {
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+          if (snapshot.data.isEmpty)
+            return Center(
+              child: Text('We were unable to find Similar TV Shows'),
+            );
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.play_circle_filled,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    Text(
+                      ' Similar TV Shows',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                  height: 200,
+                  child: TVShowTile(
+                    list: snapshot.data,
+                  )),
             ],
           );
         });

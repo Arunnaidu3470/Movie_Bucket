@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../constants/constants.dart';
 import '../pages/TVShow_details.dart';
-import '../services/api_services.dart';
+import '../services/Image_services.dart';
 
 class TVShowTile extends StatelessWidget {
   final List<dynamic> list;
