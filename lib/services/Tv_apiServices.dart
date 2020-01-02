@@ -69,4 +69,14 @@ class TVServices {
     var data = jsonDecode(response.body);
     return data['episodes'];
   }
+
+  ///Get a list of the top rated TV shows on TMDb.
+  static Future getSimilarShowsById(int showId,
+      {int page = 1, String language = 'en-US'}) async {
+    String url =
+        '$_baseUrl/$showId/similar?api_key=$_apiKey&language=en-US&page=$page';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    return data['results'];
+  }
 }
