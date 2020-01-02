@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:movie_bucket/widgets/TVshow_tile.dart';
 
 import '../widgets/ProductionList.dart';
 import '../services/Tv_apiServices.dart';
@@ -56,6 +57,10 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
                   ),
                   Divider(),
                   _seasons(seasonList: snapshot.data['seasons']),
+                  Divider(),
+                  _similarTVShows(),
+                  Divider(),
+                  _similarMovies(),
                   SizedBox(
                     height: 40,
                   ),
@@ -277,13 +282,6 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
     );
   }
 
-  Widget _releasedDate({String date}) {
-    return Text(
-      date,
-      style: TextStyle(fontStyle: FontStyle.italic, fontSize: 20),
-    );
-  }
-
   Widget _cast() {
     return FutureBuilder(
         future: MovieServices.getMovieCastDetails(widget.showId.toString()),
@@ -306,7 +304,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
             return Center(child: CircularProgressIndicator());
           if (snapshot.data.isEmpty)
             return Center(
-              child: Text('We were unable to find Similar Movies'),
+              child: Text('We were unable to find Similar Shows'),
             );
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,6 +332,46 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
                   list: snapshot.data,
                 ),
               ),
+            ],
+          );
+        });
+  }
+
+  Widget _similarTVShows() {
+    return FutureBuilder(
+        future: TVServices.getSimilarShowsById(widget.showId),
+        builder: (_, snapshot) {
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+          if (snapshot.data.isEmpty)
+            return Center(
+              child: Text('We were unable to find Similar TV Shows'),
+            );
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.play_circle_filled,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    Text(
+                      ' Similar TV Shows',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                  height: 200,
+                  child: TVShowTile(
+                    list: snapshot.data,
+                  )),
             ],
           );
         });
