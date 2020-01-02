@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../pages/Movie_details.dart';
 import '../pages/TVShow_details.dart';
-import '../services/api_services.dart';
+import '../services/Image_services.dart';
 
 enum CarouselItemType {
   ///[CarouselItemType.movie] calls Movie Detail Page

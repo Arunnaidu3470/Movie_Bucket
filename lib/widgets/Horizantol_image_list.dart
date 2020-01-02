@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_bucket/services/api_services.dart';
+
+import '../services/Image_services.dart';
 
 class HorizantolImageList extends StatelessWidget {
   final List<dynamic> list;

@@ -1,11 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:movie_bucket/widgets/TVshow_tile.dart';
 
+import '../widgets/TVshow_tile.dart';
 import '../widgets/ProductionList.dart';
 import '../services/Tv_apiServices.dart';
 import '../constants/constants.dart';
-import '../services/api_services.dart';
+import '../services/Movie_apiServices.dart';
+import '../services/Image_services.dart';
 import '../widgets/Cast_Details.dart';
 import '../widgets/Movie_tile.dart';
 
@@ -304,7 +305,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
             return Center(child: CircularProgressIndicator());
           if (snapshot.data.isEmpty)
             return Center(
-              child: Text('We were unable to find Similar Shows'),
+              child: Text('We were unable to find Similar Movies'),
             );
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_bucket/services/Tv_apiServices.dart';
-import 'package:movie_bucket/widgets/TVshow_tile.dart';
 
+import '../services/Tv_apiServices.dart';
+import '../widgets/TVshow_tile.dart';
 import '../constants/constants.dart';
-import '../services/api_services.dart';
+import '../services/Movie_apiServices.dart';
+import '../services/Image_services.dart';
 import '../widgets/Cast_Details.dart';
 import '../widgets/Movie_tile.dart';
 import '../widgets/VideoPlayer.dart';

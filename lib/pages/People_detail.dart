@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../widgets/Horizantol_image_list.dart';
 import '../constants/constants.dart';
-import '../services/api_services.dart';
+import '../services/People_services.dart';
+import '../services/Image_services.dart';
 import '../widgets/Movie_tile.dart';
 
 class PeopleDetailPage extends StatefulWidget {
