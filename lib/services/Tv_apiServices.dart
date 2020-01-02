@@ -60,7 +60,7 @@ class TVServices {
     return data['results'];
   }
 
-  ///Get a list of the top rated TV shows on TMDb.
+  ///Get the TV season details by id.
   static Future getSeasonDetailsById(int tvId, int seasonNumber,
       {int page = 1, String language = 'en-US'}) async {
     String url =
@@ -70,7 +70,8 @@ class TVServices {
     return data['episodes'];
   }
 
-  ///Get a list of the top rated TV shows on TMDb.
+  ///Get a list of similar TV shows.
+  ///These items are assembled by looking at keywords and genres.
   static Future getSimilarShowsById(int showId,
       {int page = 1, String language = 'en-US'}) async {
     String url =
