@@ -217,13 +217,13 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
             children: <Widget>[
               Icon(
                 Icons.assignment,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
               Text(
                 'Story Line',
                 maxLines: 3,
-                style: TextStyle(
-                    fontSize: 20, color: Theme.of(context).primaryColor),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    fontSize: 20, color: Theme.of(context).colorScheme.primary),
                 textWidthBasis: TextWidthBasis.parent,
               ),
             ],
@@ -456,7 +456,7 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
               child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white),
+                      color: Theme.of(context).primaryColor),
                   child: Stack(
                     children: <Widget>[
                       Positioned.fill(
@@ -514,11 +514,17 @@ class _TVShowDetailsPageState extends State<TVShowDetailsPage> {
               children: <Widget>[
                 Text(
                   snapshot.data[index]['name'],
-                  style: TextStyle(fontSize: 20),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: 20),
                 ),
                 Text(
                   snapshot.data[index]['overview'],
-                  style: TextStyle(fontSize: 15, color: Colors.black54),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      .copyWith(fontSize: 15),
                 ),
                 Divider(),
               ],
