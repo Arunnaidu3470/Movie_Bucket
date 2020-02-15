@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../services/Tv_apiServices.dart';
@@ -102,12 +102,12 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height / 2,
         child: ClipRRect(
-          child: CachedNetworkImage(
+          child: Image(
+            image: NetworkImage(ImageServices.getImageUrlOf(backgroundPath,
+                size: ImageServices.BACKDROP_SIZE_HIGHEST)),
             fit: BoxFit.cover,
-            imageUrl: ImageServices.getImageUrlOf(backgroundPath,
-                size: ImageServices.BACKDROP_SIZE_HIGHEST),
-            placeholder: (context, url) =>
-                Center(child: CircularProgressIndicator()),
+            // placeholder: (context, url) =>
+            //     Center(child: CircularProgressIndicator()),
           ),
         ));
   }
