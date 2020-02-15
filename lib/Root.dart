@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_bucket/pages/auth/signIn.dart';
+import 'package:movie_bucket/services/auth/authentication.dart';
+import 'package:provider/provider.dart';
 
+import 'models/user_model.dart';
 import 'pages/Home.dart';
 import 'pages/TVshows.dart';
 import 'pages/Search.dart';
 
 class RootPage extends StatefulWidget {
+  final User currentUser;
+  RootPage({this.currentUser});
   @override
   _RootPageState createState() => _RootPageState();
 }
@@ -75,9 +81,8 @@ class _RootPageState extends State<RootPage>
           _settingModalBottomSheet(context);
         },
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(50), child: Image.network(
-                //todo:after implementing auth update a user profile image
-                'https://avatars2.githubusercontent.com/u/47482264?s=460&v=4')),
+            borderRadius: BorderRadius.circular(50),
+            child: Image.network(widget.currentUser.profileUrl)),
       ),
     );
   }
@@ -109,25 +114,19 @@ class _RootPageState extends State<RootPage>
                           radius: 40,
                           backgroundImage: NetworkImage(
                               //todo:after implementing auth update a user profile image
-                              'https://avatars2.githubusercontent.com/u/47482264?s=460&v=4'),
-                          child: IconButton(
-                            iconSize: 30,
-                            color: Colors.white70,
-                            icon: Icon(Icons.edit),
-                            onPressed: () {
-                              print('object'); //todo:sign out
-                            },
-                          ),
+                              widget.currentUser.profileUrl),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                                'Ratakondala Arun'), //todo:after implementing auth update a user name
+                                '${widget.currentUser.name}'), //todo:after implementing auth update a user name
                             OutlineButton.icon(
                               icon: Icon(Icons.lock_outline),
                               label: Text('Sign Out'),
-                              onPressed: () {},
+                              onPressed: () {
+                                _handleSigOut();
+                              },
                             ),
                           ],
                         )
@@ -167,6 +166,21 @@ class _RootPageState extends State<RootPage>
                     ),
                   ])));
         });
+  }
+
+  _handleSigOut() async {
+    print('signing out');
+    Navigator.of(context).pop();
+    _scaffoldKey.currentState
+        .showSnackBar((SnackBar(content: LinearProgressIndicator())));
+    print('here 1');
+    if (!await AuthServices.signOutWithGoogle()) return;
+    print('here 2');
+    _scaffoldKey.currentState.hideCurrentSnackBar();
+    // Provider.of<User>(context, listen: false).dispose();
+    print('sign out');
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (cxt) => SignInPage())); //todo:sign out
   }
 
   Widget _modelTile(

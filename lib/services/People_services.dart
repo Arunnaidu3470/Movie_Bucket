@@ -7,7 +7,7 @@ class PeopleServices {
   ///contains services of actors
 
   static final String _apiKey = Keys.TMDB_API_KEY;
-  static final String _baseUrl = 'https://image.tmdb.org/t/p/w342/person';
+  static final String _baseUrl = 'https://api.themoviedb.org/3/person';
 
   static Future getPeopleDetailsById(int castId,
       {String language = 'en'}) async {
