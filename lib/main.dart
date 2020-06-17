@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:movie_bucket/Root.dart';
 import 'package:provider/provider.dart';
+
 import './pages/auth/signIn.dart';
 import 'models/user_model.dart';
 import 'services/auth/authentication.dart';

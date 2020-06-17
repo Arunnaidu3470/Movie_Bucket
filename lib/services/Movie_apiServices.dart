@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../constants/Keys.dart';
 
 class MovieServices {
-  static final String _apiKey = Keys.TMDB_API_KEY;
+  static final String _apiKey = Keys.API_V3;
   static final String _baseUrl = 'https://api.themoviedb.org/3';
 
   static Future getLatestMovies(

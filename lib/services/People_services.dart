@@ -6,7 +6,7 @@ import '../constants/Keys.dart';
 class PeopleServices {
   ///contains services of actors
 
-  static final String _apiKey = Keys.TMDB_API_KEY;
+  static final String _apiKey = Keys.API_V3;
   static final String _baseUrl = 'https://api.themoviedb.org/3/person';
 
   static Future getPeopleDetailsById(int castId,
