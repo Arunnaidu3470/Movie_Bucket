@@ -38,3 +38,4 @@ lib/generated_plugin_registrant.dart
 #user
 lib/constants/Keys.dart
 android/app/google-services.json
+lib/api/keys/keys.dart

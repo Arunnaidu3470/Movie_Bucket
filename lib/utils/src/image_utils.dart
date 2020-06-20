@@ -1,0 +1,57 @@
+// image sizes
+enum ImageSizes {
+  ORIGINAL,
+  POSTER_SIZE_LOWESTw92,
+  POSTER_SIZE_LOWw154,
+  POSTER_SIZE_MEDIUMw185,
+  POSTER_SIZE_MEDIUMPLUSw342,
+  POSTER_SIZE_HIGHw500,
+  POSTER_SIZE_HIGHESTw780,
+  LOGO_SIZE_LOWESTw45,
+  LOGO_SIZE_LOWw92,
+  LOGO_SIZE_MEDIUMw154,
+  LOGO_SIZE_MEDIUMPLUSw185,
+  LOGO_SIZE_HIGHw300,
+  LOGO_SIZE_HIGHESTw500,
+  BACKDROP_SIZE_LOWESTw300,
+  BACKDROP_SIZE_MEDIUMw185,
+  BACKDROP_SIZE_HIGHESTw780,
+  PROFILE_SIZE_LOWESTw45,
+  PROFILE_SIZE_MEDIUMw185,
+  PROFILE_SIZE_HIGHESTw632,
+  STILL_SIZE_LOWESTw92,
+  STILL_SIZE_MEDIUMw185,
+  STILL_SIZE_HIGHESTw300,
+}
+
+//Image size index
+const Map<ImageSizes, String> _IMAGE_SIZE_INDEX = {
+  ImageSizes.ORIGINAL: 'orrginal',
+  ImageSizes.POSTER_SIZE_LOWESTw92: 'w92',
+  ImageSizes.POSTER_SIZE_LOWw154: 'w154',
+  ImageSizes.POSTER_SIZE_MEDIUMw185: 'w185',
+  ImageSizes.POSTER_SIZE_MEDIUMPLUSw342: 'w342',
+  ImageSizes.POSTER_SIZE_HIGHw500: 'w500',
+  ImageSizes.POSTER_SIZE_HIGHESTw780: 'w780',
+  ImageSizes.LOGO_SIZE_LOWESTw45: 'w45',
+  ImageSizes.LOGO_SIZE_LOWw92: 'w92',
+  ImageSizes.LOGO_SIZE_MEDIUMw154: 'w154',
+  ImageSizes.LOGO_SIZE_MEDIUMPLUSw185: 'w185',
+  ImageSizes.LOGO_SIZE_HIGHw300: 'w300',
+  ImageSizes.LOGO_SIZE_HIGHESTw500: 'w500',
+  ImageSizes.BACKDROP_SIZE_LOWESTw300: 'w300',
+  ImageSizes.BACKDROP_SIZE_MEDIUMw185: 'w185',
+  ImageSizes.BACKDROP_SIZE_HIGHESTw780: 'w780',
+  ImageSizes.PROFILE_SIZE_LOWESTw45: 'w45',
+  ImageSizes.PROFILE_SIZE_MEDIUMw185: 'w185',
+  ImageSizes.PROFILE_SIZE_HIGHESTw632: 'w632',
+  ImageSizes.STILL_SIZE_LOWESTw92: 'w92',
+  ImageSizes.STILL_SIZE_MEDIUMw185: 'w185',
+  ImageSizes.STILL_SIZE_HIGHESTw300: 'w300',
+};
+
+/// Constructs a full url for tmdb api
+String getimageUrl(String file, {ImageSizes imageSize = ImageSizes.ORIGINAL}) {
+  if (file == null) return null;
+  return 'https://image.tmdb.org/t/p/${_IMAGE_SIZE_INDEX[imageSize]}$file';
+}
