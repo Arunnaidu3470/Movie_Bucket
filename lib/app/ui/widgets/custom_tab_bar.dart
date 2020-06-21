@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // custom tab bar
 class CustomTabBar<T> extends StatefulWidget {
   final List<HeaderItem<T>> children;
-  final Function(int index, T value) onSelect;
+  final void Function(int index, T value) onSelect;
   final Color selectedColor;
   final Color unSelectedColor;
   final ScrollController controller;
@@ -23,8 +23,6 @@ class CustomTabBar<T> extends StatefulWidget {
 
 class _CustomTabBarState<T> extends State<CustomTabBar<T>> {
   int _selectedItem = 0;
-  final Tween<Offset> _tween =
-      Tween<Offset>(begin: Offset(-200, 0), end: Offset(0, 0));
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,23 +41,13 @@ class _CustomTabBarState<T> extends State<CustomTabBar<T>> {
                 }
               }
             },
-            child: TweenAnimationBuilder(
-              duration: Duration(milliseconds: 250),
-              tween: _tween,
-              builder: (context, value, child) {
-                return Transform.translate(
-                  offset: value,
-                  child: child,
-                );
-              },
-              child: HeaderItem<T>(
-                label: widget.children[index].label,
-                icon: widget.children[index].icon,
-                backgroundColor: _selectedItem == index
-                    ? widget.selectedColor ?? Colors.blue[800]
-                    : widget.unSelectedColor ?? Colors.transparent,
-                value: widget.children[index].value,
-              ),
+            child: HeaderItem<T>(
+              label: widget.children[index].label,
+              icon: widget.children[index].icon,
+              backgroundColor: _selectedItem == index
+                  ? widget.selectedColor ?? Colors.blue[800]
+                  : widget.unSelectedColor ?? Colors.transparent,
+              value: widget.children[index].value,
             ),
           );
         },
